@@ -67,3 +67,9 @@ sns.histplot(df['policy_annual_premium'], ax=ax[1], kde=True)
 ax[1].set_title("After Log Transformation")
 
 plt.show()  
+
+
+# Save the updated dataset after outlier transformation
+df.to_csv("processed_insurance_data.csv", index=False)
+
+print("Dataset saved successfully.")
