@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('cleaned_insurance_data.csv')
+df = pd.read_csv("../data/cleaned_insurance_data.csv")
 
 
 numeric_cols = df.select_dtypes(include=['int64','float64']).columns
