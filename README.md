@@ -385,11 +385,11 @@ insurance-fraud-detection/
 │
 ├── data/
 ├── notebooks/
-├── src/
-├── model/
-├── app/
+├── templates/
+├── app.py
+├── image_photo_example
 ├── requirements.txt
 ├── README.md
-└── report.pdf
+└── vercel.json
 ```
 
