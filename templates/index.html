@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Insurance Claims - Fraud Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #222222;
+            --accent: #E5A93C;
+            --bg: #F8F9FA;
+            --text: #333333;
+            --border: #DDDDDD;
+            --success: #36824D;
+            --danger: #b93737;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .btn-predict-nav {
+            border: 1px solid var(--accent);
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            color: white;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-predict-nav:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        /* Hero / Info Section */
+        .info-section {
+            display: flex;
+            padding: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 4rem;
+            align-items: center;
+            background: white;
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .hero-image-placeholder {
+            flex: 1;
+            height: 400px;
+            border-radius: 8px;
+            border: 4px solid var(--accent);
+            overflow: hidden;
+            display: block;
+        }
+        
+        .hero-image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .steps-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .step {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .step-icon {
+            color: var(--accent);
+            font-size: 1.5rem;
+            padding-top: 0.2rem;
+        }
+
+        .step h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .step p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Form Section */
+        .form-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .form-section h2 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #555;
+        }
+
+        .form-group input, .form-group select {
+            padding: 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: #fafafa;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: white;
+        }
+
+        .submit-btn {
+            grid-column: 1 / -1;
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #2b6a3e;
+        }
+
+        /* Result Area */
+        .result-area {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 4px;
+            display: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .result-fraud {
+            background-color: #ffeaea;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            display: block;
+        }
+        
+        .result-safe {
+            background-color: #eaffe9;
+            border: 1px solid var(--success);
+            color: var(--success);
+            display: block;
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--accent);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">AUTO INSURANCE FRAUD DETECTION<span></span></div>
+        <nav>
+            <a href="#">Home</a>
+            
+            <button class="btn-predict-nav" onclick="document.getElementById('predict-form').scrollIntoView({behavior: 'smooth'})">Predict</button>
+        </nav>
+    </header>
+
+    <section class="info-section">
+        <div class="hero-image-placeholder">
+            <img src="/images/istockphoto-2216417792-612x612.jpg" alt="Fraud Concept">
+        </div>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-icon">📄</div>
+                <div>
+                    <h3>Data Collection and Preprocessing</h3>
+                    <p>The first step involves collecting Insurance data and preprocessing it to handle missing values, handling categorical data and outliers, and inconsistencies.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">📦</div>
+                <div>
+                    <h3>Feature Engineering and Model Selection</h3>
+                    <p>The second step involves selecting relevant features and transforming them into a format suitable for building a machine learning model, as well as selecting an appropriate algorithm such as Decision Trees or Random Forest.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">📊</div>
+                <div>
+                    <h3>Model Training and Evaluation</h3>
+                    <p>The third step involves training the selected model using the preprocessed data and evaluating its performance using metrics such as accuracy, precision, recall, and F1-score.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">🛡️</div>
+                <div>
+                    <h3>Model Deployment</h3>
+                    <p>The final step involves deploying the model in a real-world scenario to classify Fraud claims in real-time, so that No Frauds can be happened in Insurance Claims.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="form-section" id="predict-form">
+        <h2>Insurance Fraud Detection</h2>
+        <form id="fraudForm">
+            <div class="form-grid">
+                <!-- Generating the 35 fields dynamically based on the required list -->
+                <div id="dynamic-fields-container" style="display: contents;"></div>
+                <script>
+                    const fields = [
+                        "months_as_customer", "policy_number", "policy_bind_date", "policy_state",
+                        "policy_csl", "policy_deductable", "policy_annual_premium", "insured_zip",
+                        "insured_sex", "insured_occupation", "insured_hobbies", "insured_relationship",
+                        "capital-gains", "capital-loss", "incident_date", "incident_type",
+                        "collision_type", "incident_severity", "authorities_contacted", "incident_state",
+                        "incident_city", "incident_location", "incident_hour_of_the_day", "number_of_vehicles_involved",
+                        "property_damage", "bodily_injuries", "witnesses", "police_report_available",
+                        "total_claim_amount", "injury_claim", "property_claim", "vehicle_claim",
+                        "auto_make", "auto_model", "auto_year"
+                    ];
+
+                    const defaultValues = {
+                        "months_as_customer": "328",
+                        "policy_number": "521585",
+                        "policy_bind_date": "2012-10-17",
+                        "policy_state": "OH",
+                        "policy_csl": "250/500",
+                        "policy_deductable": "1000",
+                        "policy_annual_premium": "1406.91",
+                        "insured_zip": "466132",
+                        "insured_sex": "MALE",
+                        "insured_occupation": "machine-op-inspct",
+                        "insured_hobbies": "sleeping",
+                        "insured_relationship": "husband",
+                        "capital-gains": "50000",
+                        "capital-loss": "0",
+                        "incident_date": "2015-01-25",
+                        "incident_type": "Multi-vehicle Collision",
+                        "collision_type": "Side Collision",
+                        "incident_severity": "Major Damage",
+                        "authorities_contacted": "Police",
+                        "incident_state": "SC",
+                        "incident_city": "Columbus",
+                        "incident_location": "9935 4th Drive",
+                        "incident_hour_of_the_day": "5",
+                        "number_of_vehicles_involved": "3",
+                        "property_damage": "YES",
+                        "bodily_injuries": "1",
+                        "witnesses": "2",
+                        "police_report_available": "YES",
+                        "total_claim_amount": "70000",
+                        "injury_claim": "6000",
+                        "property_claim": "7000",
+                        "vehicle_claim": "57000",
+                        "auto_make": "Saab",
+                        "auto_model": "92x",
+                        "auto_year": "2004"
+                    };
+
+                    const container = document.getElementById('dynamic-fields-container');
+                    let htmlContent = '';
+                    fields.forEach(field => {
+                        const labelText = field.replace(/_/g, ' ');
+                        const defaultValue = defaultValues[field] || '';
+                        
+                        htmlContent += `
+                            <div class="form-group">
+                                <label for="${field}">${labelText}:</label>
+                                <input type="text" id="${field}" name="${field}" value="${defaultValue}">
+                            </div>
+                        `;
+                    });
+                    container.innerHTML = htmlContent;
+                </script>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Submit</button>
+            </div>
+        </form>
+
+        <div id="resultBox" class="result-area">
+            The Insurance Fraud Detection Status: <span id="statusText">Pending...</span>
+        </div>
+    </section>
+
+    <div class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
+
+    <script>
+        document.getElementById('fraudForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const resultBox = document.getElementById('resultBox');
+            const statusText = document.getElementById('statusText');
+            
+            submitBtn.textContent = "Processing...";
+            submitBtn.disabled = true;
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => { data[key] = value });
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                resultBox.className = 'result-area'; // Reset classes
+                if(result.status === 'success') {
+                    if(result.prediction === 1) {
+                        resultBox.classList.add('result-fraud');
+                        statusText.innerHTML = `<strong>Fraud Detected!</strong> <br><small>Confidence: ${(result.confidence * 100).toFixed(2)}%</small>`;
+                    } else {
+                        resultBox.classList.add('result-safe');
+                        statusText.innerHTML = `<strong>Legit Claim. No Fraud Detected.</strong> <br><small>Confidence: ${(100 - result.confidence * 100).toFixed(2)}%</small>`;
+                    }
+                } else {
+                    resultBox.classList.add('result-fraud');
+                    statusText.innerText = "Error Model Pipeline: " + result.message;
+                }
+            } catch (error) {
+                resultBox.classList.add('result-fraud');
+                statusText.innerText = "Error connecting to backend.";
+            }
+
+            submitBtn.textContent = "Submit";
+            submitBtn.disabled = false;
+        });
+    </script>
+</body>
+</html>

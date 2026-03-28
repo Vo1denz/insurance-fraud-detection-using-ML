@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+.pytest_cache/
+.vscode/
+.idea/
+cols.json
+dump_cols.py
+test_cols.py
+error_log.txt
+pip_log.txt
+flask_log.txt
+testing_cmd.txt
