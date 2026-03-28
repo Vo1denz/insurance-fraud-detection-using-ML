@@ -110,7 +110,6 @@ Converted:
 
 ### before 
 <img width="750" height="580" alt="image" src="https://github.com/user-attachments/assets/bb0ea7cc-d4d6-468f-b5d7-bf67a9a2cb69" />
-<img width="745" height="549" alt="image" src="https://github.com/user-attachments/assets/57857e0d-3e52-4cde-829c-e09bd4fcc5da" />
 
 ### after
 <img width="745" height="553" alt="image" src="https://github.com/user-attachments/assets/9997717d-d632-4d0a-8ffb-a999204128a5" />
