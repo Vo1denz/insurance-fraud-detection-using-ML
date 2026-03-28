@@ -71,8 +71,6 @@ Converted:
 - `policy_bind_date`
 - `incident_date`
 
-To:
-
 
 ---
 
