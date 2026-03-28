@@ -1,4 +1,4 @@
-# 🛡️ Insurance Fraud Detection using Machine Learning
+# Insurance Fraud Detection using Machine Learning
 
 ---
 
