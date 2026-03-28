@@ -2,6 +2,8 @@
 
 ---
 
+## Vercel Link of the Project: [Link](https://insurance-fraud-detection-using-ml.vercel.app/)
+
 ## 1. Project Overview
 
 ### Problem Statement
