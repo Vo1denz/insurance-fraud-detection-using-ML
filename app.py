@@ -4,9 +4,12 @@ import joblib
 
 app = Flask(__name__)
 
+import os
+
 @app.route('/images/<filename>')
 def get_image(filename):
-    return send_from_directory('.', filename)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    return send_from_directory(base_dir, filename)
 
 @app.route("/")
 def index():
@@ -16,8 +19,10 @@ def index():
 def predict():
     try:
         # Load Pipeline + Features freshly for each request to prevent state mutation
-        pipeline = joblib.load("notebook/pipeline.pkl")
-        feature_columns = joblib.load("notebook/feature_columns.pkl")
+        import os
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        pipeline = joblib.load(os.path.join(base_dir, "notebook", "pipeline.pkl"))
+        feature_columns = joblib.load(os.path.join(base_dir, "notebook", "feature_columns.pkl"))
         
         data = request.json
         input_data = {col: 0 for col in feature_columns}
