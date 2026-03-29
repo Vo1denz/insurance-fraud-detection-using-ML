@@ -1,5 +1,10 @@
 # Insurance Fraud Detection using Machine Learning
 
+<img width="1902" height="878" alt="image" src="https://github.com/user-attachments/assets/92441c56-0c09-4a9a-8586-f6670e6fa1b8" />
+
+<img width="1053" height="822" alt="image" src="https://github.com/user-attachments/assets/8c4a0f3d-8b99-45db-824a-49f03ded7bcc" />
+
+
 ---
 
 ## Vercel Link of the Project: [Link](https://insurance-fraud-detection-using-ml.vercel.app/)
